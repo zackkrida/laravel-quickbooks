@@ -14,7 +14,11 @@ class Customer extends Quickbooks implements QBResourceContract
         $this->handleNameListData($data, $this->resource);
         isset($data['Lines']) ? $this->createLines($data['Lines'], $this->resource) : '';
 
-        return $this->service->add($this->context, $this->realm, $this->resource) ?: $this->service->lastError();
+        if ($res = $this->service->add($this->context, $this->realm, $this->resource)) {
+            return $res;
+        } else {
+            throw new \Exception($this->service->lastError($this->context));
+        }
     }
 
     public function update($id, array $data)
@@ -46,6 +50,6 @@ class Customer extends Quickbooks implements QBResourceContract
     public function get()
     {
         $this->service = new \QuickBooks_IPP_Service_Customer();
-        return $this->service->query($this->context, $this->realm, "SELECT * FROM Customer");
+        return $this->service->query($this->context, $this->realm, "SELECT * FROM Customer STARTPOSITION 1 MAXRESULTS 1000");
     }
 }
