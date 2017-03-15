@@ -14,7 +14,11 @@ class CreditMemo extends Quickbooks implements QBResourceContract
         $this->handleTransactionData($data, $this->CreditMemo);
         $this->createLines($data['Lines'], $this->CreditMemo);
 
-        return $this->service->add($this->context, $this->realm, $this->resource) ?: $this->service->lastError();
+        if ($res = $this->service->add($this->context, $this->realm, $this->resource)) {
+            return $res;
+        } else {
+            throw new \Exception($this->service->lastError($this->context));
+        }
     }
 
     public function update($id, array $data)

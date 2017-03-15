@@ -14,7 +14,11 @@ class Vendor extends Quickbooks implements QBResourceContract
         $this->handleNameListData($data, $this->resource);
         isset($data['Lines']) ? $this->createLines($data['Lines'], $this->resource) : '';
 
-        return $this->service->add($this->context, $this->realm, $this->resource) ?: $this->service->lastError();
+        if ($res = $this->service->add($this->context, $this->realm, $this->resource)) {
+            return $res;
+        } else {
+            throw new \Exception($this->service->lastError($this->context));
+        }
     }
 
     public function update($id, array $data)
