@@ -412,6 +412,23 @@ class Quickbooks extends \QuickBooks_IPP_Service
                 $obj->addCustomField($this->generateCustomField($data['CustomField'], $customField));
             }
         }
+        
+        if (isset($data['Line'])) {
+            foreach ($data['Line'] as $line) {
+                $Line = new \QuickBooks_IPP_Object_Line();
+                isset($line['Amount']) ? $Line->setAmount($line['Amount']) : '';
+                if (isset($line['LinkedTxn'])) {
+                    foreach ($line['LinkedTxn'] as $value) {
+                        $LinkedTxn = new \QuickBooks_IPP_Object_LinkedTxn();
+                        isset($value['TxnId']) ? $LinkedTxn->setTxnId($value['TxnId']) : '';
+                        isset($value['TxnType']) ? $LinkedTxn->setTxnType($value['TxnType']) : '';
+                        isset($value['TxnLineId']) ? $LinkedTxn->setTxnLineId($value['TxnLineId']) : '';
+                        $Line->setLinkedTxn($LinkedTxn);
+                    }
+                }
+                $obj->addLine($Line);
+            }
+        }
 
         if (isset($data['LinkedTxn'])) {
             foreach ($data['LinkedTxn'] as $key => $value) {
