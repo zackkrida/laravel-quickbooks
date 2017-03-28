@@ -476,9 +476,10 @@ class Quickbooks extends \QuickBooks_IPP_Service
 
         if (isset($data['TxnTaxDetail'])) {
             $taxTxnDetail = new \QuickBooks_IPP_Object_TxnTaxDetail();
-            $taxData = $data['TxnTaxDetail'];
+            $
+                = $data['TxnTaxDetail'];
             isset($taxData['TxnTaxCodeRef']) ? $taxTxnDetail->setTxnTaxCodeRef($taxData['TxnTaxCodeRef']) : '';
-            isset($taxData['TotalTax']) ? $taxTxnDetail->setTotalTax($taxData) : '';
+            isset($taxData['TotalTax']) ? $taxTxnDetail->setTotalTax($taxData['TotalTax']) : '';
             if (isset($taxData['Lines'])) {
                 $this->createLines($taxData['Lines'], $taxTxnDetail);
             }
