@@ -8,7 +8,7 @@ class TaxCode extends Quickbooks
 {
     public function find($id)
     {
-        $this->service = new \QuickBooks_Ipp_Service_TaxCode();
+        $this->service = new \QuickBooks_IPP_Service_TaxCode();
         $query = $this->service->query($this->context, $this->realm, "SELECT * FROM TaxCode WHERE Id = '$id' ");
         if (!empty($query)) {
             return $query[0];
@@ -18,7 +18,7 @@ class TaxCode extends Quickbooks
 
     public function get()
     {
-        $this->service = new \QuickBooks_Ipp_Service_TaxCode();
+        $this->service = new \QuickBooks_IPP_Service_TaxCode();
         return $this->service->query($this->context, $this->realm, "SELECT * FROM TaxCode") ?: $this->service->lastError();
     }
 }
