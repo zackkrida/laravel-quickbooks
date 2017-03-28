@@ -412,7 +412,7 @@ class Quickbooks extends \QuickBooks_IPP_Service
                 $obj->addCustomField($this->generateCustomField($data['CustomField'], $customField));
             }
         }
-        
+
         if (isset($data['Line'])) {
             foreach ($data['Line'] as $line) {
                 $Line = new \QuickBooks_IPP_Object_Line();
@@ -476,8 +476,7 @@ class Quickbooks extends \QuickBooks_IPP_Service
 
         if (isset($data['TxnTaxDetail'])) {
             $taxTxnDetail = new \QuickBooks_IPP_Object_TxnTaxDetail();
-            $
-                = $data['TxnTaxDetail'];
+            $taxData = $data['TxnTaxDetail'];
             isset($taxData['TxnTaxCodeRef']) ? $taxTxnDetail->setTxnTaxCodeRef($taxData['TxnTaxCodeRef']) : '';
             isset($taxData['TotalTax']) ? $taxTxnDetail->setTotalTax($taxData['TotalTax']) : '';
             if (isset($taxData['Lines'])) {
