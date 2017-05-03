@@ -57,6 +57,16 @@ class Invoice extends Quickbooks implements QBResourceContract
         return 'Looks like this id does not exist.';
     }
 
+    public function generatePDFBlob($id)
+    {
+        $this->service = new \QuickBooks_IPP_Service_Invoice();
+
+        if ($this->service->pdf($this->context, $this->realm, $id)) {
+            return $this->service->pdf($this->context, $this->realm, $id);
+        }
+        return 'Looks like this id does not exist.';
+    }
+
     public function get()
     {
         $this->service = new \QuickBooks_IPP_Service_Invoice();
