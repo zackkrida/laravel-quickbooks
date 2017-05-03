@@ -14,11 +14,7 @@ class Invoice extends Quickbooks implements QBResourceContract
         $this->handleTransactionData($data, $this->resource);
         isset($data['Lines']) ? $this->createLines($data['Lines'], $this->resource) : '';
 
-        if ($res = $this->service->add($this->context, $this->realm, $this->resource)) {
-            return $res;
-        } else {
-            throw new \Exception($this->service->lastError($this->context));
-        }
+        return $this->service->add($this->context, $this->realm, $this->resource) ?: $this->service->lastError();
     }
 
     public function update($id, array $data)
@@ -57,6 +53,16 @@ class Invoice extends Quickbooks implements QBResourceContract
             header("Content-Disposition: attachment; filename=invoice_$id.pdf");
             header("Content-type: application/x-pdf");
             return print $this->service->pdf($this->context, $this->realm, $id);
+        }
+        return 'Looks like this id does not exist.';
+    }
+
+    public function generatePDFBlob($id)
+    {
+        $this->service = new \QuickBooks_IPP_Service_Invoice();
+
+        if ($this->service->pdf($this->context, $this->realm, $id)) {
+            return $this->service->pdf($this->context, $this->realm, $id);
         }
         return 'Looks like this id does not exist.';
     }
