@@ -8,7 +8,7 @@
         "email": "me@myleshyson.com"
     }],
     "require": {
-        "consolibyte/quickbooks": "dev-master"
+        "consolibyte/quickbooks": "dev-zack - dev-master"
     },
     "repositories": [{
         "type": "vcs",
